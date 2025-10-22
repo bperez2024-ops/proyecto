@@ -1,59 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Galería de Animaciones — Métodos Matemáticos</title>
   <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: #0e0e0e;
-      color: #f0f0f0;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      padding-top: 20px;
-    }
-    .gallery {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 20px;
-    }
-    .item {
-      background: #1c1c1c;
-      border-radius: 10px;
-      padding: 10px;
-      max-width: 400px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
-    }
-    .item img {
-      max-width: 100%;
-      border-radius: 5px;
-    }
-    .caption {
-      margin-top: 8px;
-      font-weight: bold;
-    }
+    body { font-family: "Segoe UI", sans-serif; background: #0e0e0e; color: #f0f0f0; margin:0; }
+    h1 { text-align:center; padding: 20px 12px; }
+    .gallery { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px; }
+    .item { background:#1c1c1c; border-radius:12px; padding:12px; max-width:420px; box-shadow:0 0 10px rgba(255,255,255,.08); }
+    .item img { width:100%; height:auto; border-radius:6px; }
+    .caption { margin-top:8px; font-weight:600; text-align:center; }
+    footer { text-align:center; margin:24px 0; color:#aaa; font-size:.9em; }
   </style>
 </head>
 <body>
   <h1>📽️ Galería de Animaciones — Métodos Matemáticos</h1>
+
   <div class="gallery">
     <div class="item">
-      <img src="gifs/regresion_diodo_ajuste.gif" alt="Regresión">
+      <!-- ¡Importante! El espacio es %20 -->
+      <img src="gifs/regresion_diodo_ajuste%20(1).gif" alt="Regresión — Ajuste de Shockley">
       <div class="caption">🔄 Regresión — Ajuste de Shockley</div>
     </div>
+
     <div class="item">
-      <img src="gifs/interpolacion_ventana.gif" alt="Interpolación">
+      <img src="gifs/interpolacion_ventana%20(1).gif" alt="Interpolación — Ventana deslizante">
       <div class="caption">🎚️ Interpolación — Ventana deslizante</div>
     </div>
+
     <div class="item">
-      <img src="gifs/fdtd_propagacion.gif" alt="FDTD">
+      <img src="gifs/fdtd_propagacion%20(1).gif" alt="FDTD — Propagación 1D">
       <div class="caption">🌊 FDTD — Propagación 1D</div>
     </div>
   </div>
+
+  <footer>© 2025 - Proyecto de Métodos Matemáticos</footer>
 </body>
 </html>
