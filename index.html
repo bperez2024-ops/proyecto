@@ -4,21 +4,21 @@
   <meta charset="UTF-8" />
   <title>Galería de Animaciones — Métodos Matemáticos</title>
   <style>
-    /* 🌌 Fondo */
+    /* 👇 Fondo con imagen */
     body {
       font-family: "Segoe UI", sans-serif;
       margin: 0;
-      background: url('img/fondo.png') no-repeat center center fixed;
+      background: url('Gemini_Generated_Image_l6axpzl6axpzl6ax.png') no-repeat center center fixed;
       background-size: cover;
       color: #f0f0f0;
     }
 
-    /* ✨ Capa oscura para mejorar la legibilidad */
+    /* 👇 Capa oscura para que el texto sea legible */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0,0,0,0.6);
       backdrop-filter: blur(2px);
       z-index: -1;
     }
@@ -26,10 +26,9 @@
     h1 {
       text-align: center;
       padding: 20px 12px;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
     }
 
-    /* 📸 Galería */
     .gallery {
       display: flex;
       flex-wrap: wrap;
@@ -43,8 +42,7 @@
       border-radius: 12px;
       padding: 12px;
       max-width: 420px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
-      transition: transform 0.2s ease;
+      box-shadow: 0 0 10px rgba(255,255,255,.08);
     }
 
     .item img {
@@ -52,7 +50,7 @@
       height: auto;
       border-radius: 6px;
       cursor: pointer;
-      transition: transform 0.2s ease;
+      transition: transform .2s ease;
     }
 
     .item img:hover {
@@ -69,11 +67,11 @@
       text-align: center;
       margin: 24px 0;
       color: #ccc;
-      font-size: 0.9em;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+      font-size: .9em;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
     }
 
-    /* 📽️ Pantalla completa */
+    /* Fullscreen GIF */
     .fullscreen-img {
       object-fit: contain;
       width: 100%;
@@ -83,11 +81,6 @@
       justify-content: center;
       align-items: center;
     }
-
-    .fullscreen-img img {
-      max-width: 100%;
-      max-height: 100%;
-    }
   </style>
 </head>
 <body>
@@ -95,17 +88,17 @@
 
   <div class="gallery">
     <div class="item">
-      <img src="gifs/regresion_diodo_ajuste (1).gif" alt="Regresión — Ajuste de Shockley" onclick="openFullscreen(this)">
+      <img src="gifs/regresion_diodo_ajuste%20(1).gif" alt="Regresión — Ajuste de Shockley" onclick="openFullscreen(this)">
       <div class="caption">🔄 Regresión — Ajuste de Shockley</div>
     </div>
 
     <div class="item">
-      <img src="gifs/interpolacion_ventana (1).gif" alt="Interpolación — Ventana deslizante" onclick="openFullscreen(this)">
+      <img src="gifs/interpolacion_ventana%20(1).gif" alt="Interpolación — Ventana deslizante" onclick="openFullscreen(this)">
       <div class="caption">🎚️ Interpolación — Ventana deslizante</div>
     </div>
 
     <div class="item">
-      <img src="gifs/fdtd_propagacion (1).gif" alt="FDTD — Propagación 1D" onclick="openFullscreen(this)">
+      <img src="gifs/fdtd_propagacion%20(1).gif" alt="FDTD — Propagación 1D" onclick="openFullscreen(this)">
       <div class="caption">🌊 FDTD — Propagación 1D</div>
     </div>
   </div>
