@@ -4,13 +4,18 @@
   <meta charset="UTF-8" />
   <title>Galería de Animaciones — Métodos Matemáticos</title>
   <style>
-    /* 👇 Fondo con imagen */
+    html, body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    /* Fondo correcto — usando captura.png */
     html {
-      background: url('/proyecto/img/captura.png') no-repeat center center fixed;
+      background: url('img/captura.png') no-repeat center center fixed;
       background-size: cover;
     }
 
-    /* 👇 Capa oscura para mejorar contraste */
+    /* Oscurecer un poco para que se vean bien los textos */
     body::before {
       content: "";
       position: fixed;
@@ -22,18 +27,19 @@
 
     body {
       font-family: "Segoe UI", sans-serif;
-      margin: 0;
       color: #f0f0f0;
       position: relative;
-      min-height: 100vh;
+    }
+
+    h1, .gallery, footer {
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
       text-align: center;
       padding: 20px 12px;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-      position: relative;
-      z-index: 1;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
     }
 
     .gallery {
@@ -42,21 +48,18 @@
       justify-content: center;
       gap: 20px;
       padding: 20px;
-      position: relative;
-      z-index: 1;
     }
 
     .item {
-      background: rgba(28, 28, 28, 0.8);
+      background: rgba(28,28,28,0.8);
       border-radius: 12px;
       padding: 12px;
       max-width: 420px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 10px rgba(255,255,255,0.08);
     }
 
     .item img {
       width: 100%;
-      height: auto;
       border-radius: 6px;
       cursor: pointer;
       transition: transform 0.2s ease;
@@ -76,13 +79,10 @@
       text-align: center;
       margin: 24px 0;
       color: #ccc;
-      font-size: 0.9em;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-      position: relative;
-      z-index: 1;
+      font-size: .9em;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
     }
 
-    /* Fullscreen GIF */
     .fullscreen-img {
       object-fit: contain;
       width: 100%;
@@ -91,6 +91,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .fullscreen-img img {
+      max-width: 100%;
+      max-height: 100%;
     }
   </style>
 </head>
@@ -122,37 +127,25 @@
     function openFullscreen(img) {
       fullscreenWrapper = document.createElement("div");
       fullscreenWrapper.classList.add("fullscreen-img");
-
       const clone = img.cloneNode();
       fullscreenWrapper.appendChild(clone);
       fullscreenWrapper.onclick = closeFullscreen;
-
       document.body.appendChild(fullscreenWrapper);
 
-      if (fullscreenWrapper.requestFullscreen) {
-        fullscreenWrapper.requestFullscreen();
-      } else if (fullscreenWrapper.webkitRequestFullscreen) {
-        fullscreenWrapper.webkitRequestFullscreen();
-      } else if (fullscreenWrapper.msRequestFullscreen) {
-        fullscreenWrapper.msRequestFullscreen();
-      }
+      if (fullscreenWrapper.requestFullscreen) fullscreenWrapper.requestFullscreen();
+      else if (fullscreenWrapper.webkitRequestFullscreen) fullscreenWrapper.webkitRequestFullscreen();
+      else if (fullscreenWrapper.msRequestFullscreen) fullscreenWrapper.msRequestFullscreen();
     }
 
     function closeFullscreen() {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) document.msExitFullscreen();
       fullscreenWrapper.remove();
     }
 
     document.addEventListener("fullscreenchange", () => {
-      if (!document.fullscreenElement && fullscreenWrapper) {
-        fullscreenWrapper.remove();
-      }
+      if (!document.fullscreenElement && fullscreenWrapper) fullscreenWrapper.remove();
     });
   </script>
 </body>
