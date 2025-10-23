@@ -5,28 +5,35 @@
   <title>Galería de Animaciones — Métodos Matemáticos</title>
   <style>
     /* 👇 Fondo con imagen */
-    body {
-      font-family: "Segoe UI", sans-serif;
-      margin: 0;
-      background: url('Gemini_Generated_Image_l6axpzl6axpzl6ax.png') no-repeat center center fixed;
+    html {
+      background: url('/proyecto/img/fondo.png') no-repeat center center fixed;
       background-size: cover;
-      color: #f0f0f0;
     }
 
-    /* 👇 Capa oscura para que el texto sea legible */
+    /* 👇 Capa oscura para mejorar contraste */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(2px);
-      z-index: -1;
+      z-index: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      color: #f0f0f0;
+      position: relative;
+      min-height: 100vh;
     }
 
     h1 {
       text-align: center;
       padding: 20px 12px;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      position: relative;
+      z-index: 1;
     }
 
     .gallery {
@@ -35,6 +42,8 @@
       justify-content: center;
       gap: 20px;
       padding: 20px;
+      position: relative;
+      z-index: 1;
     }
 
     .item {
@@ -42,7 +51,7 @@
       border-radius: 12px;
       padding: 12px;
       max-width: 420px;
-      box-shadow: 0 0 10px rgba(255,255,255,.08);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
     }
 
     .item img {
@@ -50,7 +59,7 @@
       height: auto;
       border-radius: 6px;
       cursor: pointer;
-      transition: transform .2s ease;
+      transition: transform 0.2s ease;
     }
 
     .item img:hover {
@@ -67,8 +76,10 @@
       text-align: center;
       margin: 24px 0;
       color: #ccc;
-      font-size: .9em;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+      font-size: 0.9em;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+      position: relative;
+      z-index: 1;
     }
 
     /* Fullscreen GIF */
