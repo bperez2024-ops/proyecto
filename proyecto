@@ -9,13 +9,13 @@
       margin: 0;
     }
 
-    /* Fondo correcto — usando captura.png */
+    /* ✅ Fondo correcto */
     html {
       background: url('img/captura.png') no-repeat center center fixed;
       background-size: cover;
     }
 
-    /* Oscurecer un poco para que se vean bien los textos */
+    /* 🔥 Capa oscura para contraste */
     body::before {
       content: "";
       position: fixed;
@@ -29,6 +29,7 @@
       font-family: "Segoe UI", sans-serif;
       color: #f0f0f0;
       position: relative;
+      min-height: 100vh;
     }
 
     h1, .gallery, footer {
