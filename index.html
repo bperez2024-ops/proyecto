@@ -1,151 +1,277 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Galería de Animaciones — Métodos Matemáticos</title>
+
   <style>
-    html, body {
-      min-height: 100%;
-      margin: 0;
+    :root{
+      --bg-image: url('img/fondo.png'); /* ruta relativa (funciona si index.html está en la raíz) */
+      --overlay-color: rgba(0,0,0,0.55);
+      --card-bg: rgba(28,28,28,0.85);
+      --text: #f0f0f0;
+      --muted: #ccc;
+      --gap: 20px;
+      --radius: 12px;
+      --max-width-card: 420px;
     }
 
-    html {
-      background: url('img/fondo.png') no-repeat center center fixed;
+    /* Reset / base */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+      color:var(--text);
+      line-height:1.4;
+      min-height:100vh;
+      position:relative;
+      background-color:#0b0b0b; /* fallback color */
+      background-image: var(--bg-image);
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
       background-size: cover;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.55);
+    /* oscurecer + desenfoque sin bloquear interacción con contenido */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:var(--overlay-color);
       backdrop-filter: blur(2px);
-      z-index: 0;
+      z-index:0;
+      pointer-events:none;
     }
 
-    body {
-      font-family: "Segoe UI", sans-serif;
-      color: #f0f0f0;
-      position: relative;
-      min-height: 100vh;
+    /* contenedor principal para apilar sobre el overlay */
+    .site{
+      position:relative;
+      z-index:1;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
     }
 
-    h1, .gallery, footer {
-      position: relative;
-      z-index: 1;
+    header{
+      text-align:center;
+      padding:24px 12px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    }
+    h1{margin:0;font-size:1.5rem; display:flex;gap:8px;justify-content:center;align-items:center}
+
+    main{
+      flex:1;
+      padding:16px;
+      display:flex;
+      justify-content:center;
     }
 
-    h1 {
-      text-align: center;
-      padding: 20px 12px;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    .gallery{
+      display:flex;
+      flex-wrap:wrap;
+      gap:var(--gap);
+      justify-content:center;
+      max-width:1200px;
+      width:100%;
+      padding:12px;
     }
 
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
+    .item{
+      background:var(--card-bg);
+      border-radius:var(--radius);
+      padding:12px;
+      max-width:var(--max-width-card);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5), 0 0 10px rgba(255,255,255,0.02) inset;
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
     }
 
-    .item {
-      background: rgba(28,28,28,0.8);
-      border-radius: 12px;
-      padding: 12px;
-      max-width: 420px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.08);
+    .thumb{
+      width:100%;
+      border-radius:6px;
+      display:block;
+      cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease;
     }
 
-    .item img {
-      width: 100%;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+    .thumb:hover, .thumb:focus{
+      transform:scale(1.03);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      outline: none;
     }
 
-    .item img:hover {
-      transform: scale(1.05);
+    .caption{
+      margin-top:10px;
+      font-weight:600;
+      text-align:center;
+      color:var(--text);
     }
 
-    .caption {
-      margin-top: 8px;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    footer {
-      text-align: center;
-      margin: 24px 0;
-      color: #ccc;
-      font-size: .9em;
+    footer{
+      text-align:center;
+      padding:18px 8px;
+      color:var(--muted);
+      font-size:.9rem;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
     }
 
-    .fullscreen-img {
-      object-fit: contain;
-      width: 100%;
-      height: 100%;
-      background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    /* Lightbox accesible (no dependemos del Fullscreen API para que funcione en todos lados) */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      display:none; /* visible cuando tiene .open */
+      align-items:center;
+      justify-content:center;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      padding:18px;
+    }
+    .lightbox.open{display:flex}
+    .lightbox__content{
+      width:100%;
+      max-width:1100px;
+      max-height:90vh;
+      background: #000;
+      border-radius:8px;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+    .lightbox__img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background:#111;
+    }
+    .lightbox__close{
+      position:absolute;
+      top:8px;
+      right:8px;
+      background: rgba(255,255,255,0.08);
+      color:var(--text);
+      border:none;
+      padding:8px 10px;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .sr-only{
+      position:absolute!important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
     }
 
-    .fullscreen-img img {
-      max-width: 100%;
-      max-height: 100%;
+    /* pequeñas mejoras responsivas */
+    @media (max-width:640px){
+      .gallery{gap:12px}
+      .item{max-width:100%}
+      h1{font-size:1.1rem}
+    }
+
+    /* respeta preferencia por reducir movimiento */
+    @media (prefers-reduced-motion:reduce){
+      .thumb{transition:none}
     }
   </style>
 </head>
 <body>
-  <h1>📽️ Galería de Animaciones — Métodos Matemáticos</h1>
+  <div class="site">
+    <header>
+      <h1>📽️ Galería de Animaciones — Métodos Matemáticos</h1>
+    </header>
 
-  <div class="gallery">
-    <div class="item">
-      <img src="gifs/regresion_diodo_ajuste%20(1).gif" alt="Regresión — Ajuste de Shockley" onclick="openFullscreen(this)">
-      <div class="caption">🔄 Regresión — Ajuste de Shockley</div>
-    </div>
+    <main>
+      <section class="gallery" aria-label="Galería de animaciones">
+        <article class="item">
+          <img class="thumb" src="gifs/regresion_diodo_ajuste%20(1).gif" alt="Regresión — Ajuste de Shockley" tabindex="0"
+               data-caption="🔄 Regresión — Ajuste de Shockley"
+               onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'){openLightbox(this)}">
+          <div class="caption">🔄 Regresión — Ajuste de Shockley</div>
+        </article>
 
-    <div class="item">
-      <img src="gifs/interpolacion_ventana%20(1).gif" alt="Interpolación — Ventana deslizante" onclick="openFullscreen(this)">
-      <div class="caption">🎚️ Interpolación — Ventana deslizante</div>
-    </div>
+        <article class="item">
+          <img class="thumb" src="gifs/interpolacion_ventana%20(1).gif" alt="Interpolación — Ventana deslizante" tabindex="0"
+               data-caption="🎚️ Interpolación — Ventana deslizante"
+               onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'){openLightbox(this)}">
+          <div class="caption">🎚️ Interpolación — Ventana deslizante</div>
+        </article>
 
-    <div class="item">
-      <img src="gifs/fdtd_propagacion%20(1).gif" alt="FDTD — Propagación 1D" onclick="openFullscreen(this)">
-      <div class="caption">🌊 FDTD — Propagación 1D</div>
+        <article class="item">
+          <img class="thumb" src="gifs/fdtd_propagacion%20(1).gif" alt="FDTD — Propagación 1D" tabindex="0"
+               data-caption="🌊 FDTD — Propagación 1D"
+               onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'){openLightbox(this)}">
+          <div class="caption">🌊 FDTD — Propagación 1D</div>
+        </article>
+      </section>
+    </main>
+
+    <footer>© 2025 - Proyecto de Métodos Matemáticos</footer>
+  </div>
+
+  <!-- Lightbox accesible -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Imagen en grande">
+    <div class="lightbox__content" role="document">
+      <button class="lightbox__close" aria-label="Cerrar (Escape)" onclick="closeLightbox()">✕</button>
+      <img id="lightboxImg" class="lightbox__img" src="" alt="">
     </div>
   </div>
 
-  <footer>© 2025 - Proyecto de Métodos Matemáticos</footer>
-
   <script>
-    let fullscreenWrapper = null;
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    let lastFocused = null;
 
-    function openFullscreen(img) {
-      fullscreenWrapper = document.createElement("div");
-      fullscreenWrapper.classList.add("fullscreen-img");
-      const clone = img.cloneNode();
-      fullscreenWrapper.appendChild(clone);
-      fullscreenWrapper.onclick = closeFullscreen;
-      document.body.appendChild(fullscreenWrapper);
+    function openLightbox(imgEl){
+      // guarda último elemento enfocado para devolver foco al cerrar
+      lastFocused = document.activeElement;
 
-      if (fullscreenWrapper.requestFullscreen) fullscreenWrapper.requestFullscreen();
-      else if (fullscreenWrapper.webkitRequestFullscreen) fullscreenWrapper.webkitRequestFullscreen();
-      else if (fullscreenWrapper.msRequestFullscreen) fullscreenWrapper.msRequestFullscreen();
+      // muestra imagen en lightbox
+      lightboxImg.src = imgEl.src;
+      lightboxImg.alt = imgEl.alt || imgEl.dataset.caption || 'Imagen ampliada';
+      lightbox.setAttribute('aria-hidden','false');
+      lightbox.classList.add('open');
+
+      // mover foco al botón de cerrar para accesibilidad
+      const closeBtn = lightbox.querySelector('.lightbox__close');
+      if(closeBtn) closeBtn.focus();
+
+      // Evitar scroll en el fondo
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
     }
 
-    function closeFullscreen() {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-      else if (document.msExitFullscreen) document.msExitFullscreen();
-      fullscreenWrapper.remove();
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden','true');
+      lightboxImg.src = '';
+      // restaurar scroll
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      // devolver foco
+      if(lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
     }
 
-    document.addEventListener("fullscreenchange", () => {
-      if (!document.fullscreenElement && fullscreenWrapper) fullscreenWrapper.remove();
+    // cerrar al hacer clic fuera del contenido
+    lightbox.addEventListener('click', (e)=>{
+      if(e.target === lightbox) closeLightbox();
     });
+
+    // cerrar con Escape
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+    });
+
+    // Si quieres intentar fullscreen nativo además del lightbox (opcional)
+    // añádelo al botón de cerrar o separa un botón de "Abrir en pantalla completa".
+    // Aquí lo dejamos como opción comentada para evitar problemas en navegadores que
+    // devuelven errores 400 u otros al usar APIs en entornos inseguro/file://.
   </script>
 </body>
 </html>
